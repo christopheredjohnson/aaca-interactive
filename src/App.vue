@@ -1,20 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
+    <div id="nav">
+      <router-link to="/">Main</router-link>
+      <router-link to="/search">Search</router-link>
+    </div>
   </div>
 </template>
 
 <style>
+* {
+  padding: 0;
+  margin: 0;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  height: 100vh;
+  width: 100vw;
+  background: rgb(163,172,182);
+  background: linear-gradient(0deg, rgba(163,172,182,1) 0%, rgba(174,180,189,1) 47%, rgba(218,220,223,1) 80%, rgba(244,244,244,1) 100%);
 }
 
 #nav {
@@ -22,11 +25,13 @@
 }
 
 #nav a {
+  text-transform: uppercase;
+  text-decoration: none;
   font-weight: bold;
-  color: #2c3e50;
+  color: #a0abb4;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #fff;
 }
 </style>
