@@ -24,6 +24,7 @@
       :input="inputs[inputName]"
       :inputName="inputName"
     />
+
   </div>
 </template>
 

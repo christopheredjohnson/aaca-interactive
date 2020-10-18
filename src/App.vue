@@ -5,6 +5,7 @@
     </div>
 
     <router-view class="app-content" />
+
     <div class="app-footer">
       <div>
         <img src="@/assets/Logo.png"/>
@@ -14,6 +15,7 @@
         <router-link to="/search">Search</router-link>
       </div>
     </div>
+
   </div>
 </template>
 
