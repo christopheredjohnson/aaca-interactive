@@ -1,13 +1,16 @@
 <template>
   <div class="search">
-
     <div class="filters">
-      <span class="filter-item" :class="{active: filterBy == 'name'}">Search by Name</span>
+      <span class="filter-item" @click="filterBy = 'name'" :class="{ active: filterBy == 'name' }"
+        >Search by Name</span
+      >
       <span>or</span>
-      <span class="filter-item" :class="{active: filterBy == 'award'}">Search by Award</span>
+      <span class="filter-item" @click="filterBy = 'award'" :class="{ active: filterBy == 'award' }"
+        >Search by Award</span
+      >
     </div>
 
-    <div v-for="key in Object.keys(inputs)" :key="key">
+    <div v-for="key in Object.keys(inputs)" :key="key" v-show="shouldhideInput(key)">
       <Input
         :inputs="inputs"
         :inputName="key"
@@ -16,7 +19,7 @@
       />
     </div>
 
-    <button>Search</button>
+    <button @click="search">Search</button>
 
     <Keyboard
       @onChange="onChange"
@@ -25,10 +28,16 @@
       :inputName="inputName"
     />
 
+    <ul>
+      <li v-for="(result, index) in results" :key="`fruit-${index}`">
+        {{ result.winners }} - {{ result.year }} - {{ result.title }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
+import _ from "lodash";
 import Keyboard from "@/components/Keyboard";
 import Input from "@/components/Input";
 
@@ -36,7 +45,7 @@ export default {
   name: "Search",
   components: {
     Keyboard,
-    Input
+    Input,
   },
   data: () => ({
     /**
@@ -45,12 +54,42 @@ export default {
     inputs: {
       firstName: "",
       lastName: "",
-      AwardName: ""
+      awardName: "",
     },
+    isSearching: false,
     inputName: "firstName",
-    filterBy: "name"
+    filterBy: "award",
+    results: [],
   }),
   methods: {
+    shouldhideInput(key) {
+      if(this.filterBy == "name" && key == "firstName") return true
+      if(this.filterBy == "name" && key == "lastName") return true
+      if(this.filterBy == "award" && key == "awardName") return true
+      return false
+    },
+    search() {
+      if (this.filterBy == "name") {
+        this.results = _.filter(this.$root.awards, (value) => {
+          return (
+            value.winners
+              .toLowerCase()
+              .includes(this.inputs.firstName.toLowerCase()) &&
+            value.winners
+              .toLowerCase()
+              .includes(this.inputs.lastName.toLowerCase())
+          );
+        });
+      } else {
+        this.results = _.filter(this.$root.awards, (value) => {
+          return (
+            value.title.toLowerCase()
+              .includes(this.inputs.awardName.toLowerCase())
+          );
+        });
+      }
+      console.log(this.results)
+    },
     onChange(input) {
       this.inputs[this.inputName] = input;
     },
@@ -64,18 +103,18 @@ export default {
     onInputFocus(input) {
       console.log("Focused input:", input.target.id);
       this.inputName = input.target.id;
-    }
-  }
+    },
+  },
 };
-</script> 
+</script>
 
 <style lang="scss" scoped>
 .filters {
   .filter-item {
     text-transform: uppercase;
-    color: #0E3E4E;
+    color: #0e3e4e;
     &.active {
-      color: #EF4823;
+      color: #ef4823;
     }
   }
 }

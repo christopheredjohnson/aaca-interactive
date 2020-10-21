@@ -14,9 +14,11 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "lodash": "^4.17.20",
     "simple-keyboard": "^2.31.6",
     "vue": "^2.6.11",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "xlsx": "^0.16.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
